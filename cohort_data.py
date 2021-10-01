@@ -57,7 +57,7 @@ def students_by_cohort(filename, cohort="All"):
     Return:
       - list[list]: a list of lists
     """
-
+    #cohort = cohort
     students = []
 
     the_file = open(filename)
@@ -66,18 +66,17 @@ def students_by_cohort(filename, cohort="All"):
       line = line.rstrip()
       line = line.split('|')
 
-      if cohort != '':
-
-        if cohort == "All":
-          students.append(f"{line[0]} {line[1]}")
-
-        elif cohort == line[4]:
-          students.append(f"{line[0]} {line[1]}")
-
-      else:
+      #if line[4] == "I" or line[4] == "G":
+        
+      if cohort == "All" and line[4] != "I" and line[4] != "G":
         students.append(f"{line[0]} {line[1]}")
-      # elif cohort == None:
-      #   students.append(f"{line[0]} {line[1]}")
+
+      elif cohort == line[4] and line[4] != "I" and line[4] != "G":
+        students.append(f"{line[0]} {line[1]}")
+
+      #elif line[4] == []:
+        #print(line)
+       # students.append(f"{line[0]} {line[1]}")
 
     return sorted(students)
 
@@ -164,9 +163,17 @@ def all_data(filename):
       - list[tuple]: a list of tuples
     """
 
+    the_file = open(filename)
+
     all_data = []
 
-    # TODO: replace this with your code
+    for line in the_file:
+      line = line.rstrip()
+      line = line.split('|')
+
+      student_tuple = ((f"{line[0]} {line[1]}"), line[2], line[3], line[4])
+
+      all_data.append(student_tuple)
 
     return all_data
 
@@ -192,8 +199,19 @@ def get_cohort_for(filename, name):
       - str: the person's cohort or None
     """
 
-    # TODO: replace this with your code
+    the_file = open(filename)
 
+    student_tuple = tuple()
+
+    for line in the_file:
+      line = line.rstrip()
+      line = line.split('|')
+      
+      student_tuple = ((f"{line[0]} {line[1]}"), line[2], line[3], line[4])
+
+      if name == student_tuple[0]:
+        return line[4]
+  
 
 def find_duped_last_names(filename):
     """Return a set of duplicated last names that exist in the data.
@@ -209,7 +227,32 @@ def find_duped_last_names(filename):
       - set[str]: a set of strings
     """
 
-    # TODO: replace this with your code
+    last_names = []
+    # all last names 
+
+    the_file = open(filename)
+    for line in the_file:
+      line = line.rstrip()
+      line = line.split('|')
+
+      last_names.append(line[1])
+    #make list of all last names
+
+    
+    # make a set of that list
+    # has names only once
+
+    dif = [lastname for lastname in last_names if last_names.count(lastname) > 1]
+    # subtract those
+
+    ln_set = set(dif)
+
+    #dupe = []
+    # if line[1] not in dupe:
+      #dupe.append(line[1])
+    # make set of difference
+    return(ln_set)
+    
 
 
 def get_housemates_for(filename, name):
@@ -224,7 +267,36 @@ def get_housemates_for(filename, name):
     {'Angelina Johnson', ..., 'Seamus Finnigan'}
     """
 
-    # TODO: replace this with your code
+    the_file = open(filename)
+
+    housemates_list = []
+    house_name = ''
+    cohort = ''
+
+    for line in the_file:
+      line = line.rstrip()
+      line = line.split('|')
+
+      student_name = f"{line[0]} {line[1]}")
+      
+
+      #student_tuple = ((f"{line[0]} {line[1]}"), line[2], line[3], line[4])
+
+
+      if name == student_name:
+        house_name = line[2]
+        cohort = line[4]
+
+      
+      *
+      if house_name == line[2]:
+        housemates_list.append(f"{line[0]} {line[1]}"))
+
+      return housemates_list
+    
+
+
+
 
 
 ##############################################################################
